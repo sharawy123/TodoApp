@@ -32,6 +32,18 @@ class AppTheme
       shape: CircleBorder(
         side: BorderSide(color: white,width: 4)
       ),
+    ),
+    textTheme: TextTheme(
+        titleMedium: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: black,
+        ),
+        titleSmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: black,
+        )
     )
   );
 
