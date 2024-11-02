@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/app_theme.dart';
+import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/tabs/tasks/task_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 
 class TasksTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.sizeOf(context).height;
+    double screenHeight = MediaQuery
+        .sizeOf(context)
+        .height;
+    List <TaskModel> tasks = List.generate(10, (index) =>
+        TaskModel(title: 'title $index',
+            description: "description $index",
+            date: DateTime.now()));
     return Column(
       children: [
         Stack(
@@ -18,11 +25,12 @@ class TasksTab extends StatelessWidget {
             ),
             PositionedDirectional(
               start: 20,
-            //  top: 45,
+              //  top: 45,
               child: SafeArea(
                 child: Text(
                   "To Do List",
-                  style: Theme.of(context)
+                  style: Theme
+                      .of(context)
                       .textTheme
                       .titleMedium
                       ?.copyWith(color: AppTheme.white, fontSize: 22),
@@ -30,7 +38,7 @@ class TasksTab extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight*0.1),
+              padding: EdgeInsets.only(top: screenHeight * 0.1),
               child: EasyInfiniteDateTimeLine(
                 showTimelineHeader: false,
                 firstDate: DateTime.now().subtract(Duration(days: 365)),
@@ -74,9 +82,9 @@ class TasksTab extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
-            padding: EdgeInsets.only(top:20),
-            itemBuilder: (_, index) => TaskItem(),
-            itemCount: 10,
+            padding: EdgeInsets.only(top: 20),
+            itemBuilder: (_, index) => TaskItem(tasks[index]),
+            itemCount: tasks.length,
           ),
         ),
       ],

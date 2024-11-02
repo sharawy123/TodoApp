@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
 
@@ -51,7 +52,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   return 'description cannot be empty';
                 }
               },
-
             ),
             SizedBox(height: 16),
             Text(
@@ -94,6 +94,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
-    print('add caall');
+    TaskModel(
+      title: titleControlelr.text,
+      description: descriptionControlelr.text,
+      date: selectedDate,
+    );
   }
 }
