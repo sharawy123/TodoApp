@@ -1,19 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/app_theme.dart';
+import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/tabs/tasks/task_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 
-class TasksTab extends StatelessWidget {
+class TasksTab extends StatefulWidget {
+  @override
+  State<TasksTab> createState() => _TasksTabState();
+}
+
+class _TasksTabState extends State<TasksTab> {
+  List <TaskModel> tasks = [];
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery
         .sizeOf(context)
         .height;
-    List <TaskModel> tasks = List.generate(10, (index) =>
-        TaskModel(title: 'title $index',
-            description: "description $index",
-            date: DateTime.now()));
+    if(tasks.isEmpty){
+      getTasks();
+    }
     return Column(
       children: [
         Stack(
@@ -89,5 +96,12 @@ class TasksTab extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future <void> getTasks ()async{
+    tasks = await FireBaseFunctions.getAlltasksFromFireStore();
+    setState(() {
+
+    });
   }
 }

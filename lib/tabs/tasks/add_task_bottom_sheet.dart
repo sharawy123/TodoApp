@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
@@ -68,10 +69,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   initialDate: selectedDate,
                   initialEntryMode: DatePickerEntryMode.calendarOnly,
                 );
-                if (dateTime != null) {
+                if (dateTime != null && selectedDate != dateTime) {
                   selectedDate = dateTime;
+                  setState(() {});
                 }
-                setState(() {});
               },
               child: Text(
                 dateFormat.format(selectedDate),
@@ -94,10 +95,19 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
-    TaskModel(
+    TaskModel task = TaskModel(
       title: titleControlelr.text,
       description: descriptionControlelr.text,
       date: selectedDate,
     );
+    FireBaseFunctions.addtaskFireStore(task).
+    timeout(
+        Duration(microseconds: 100),
+        onTimeout:(){
+      Navigator.of(context).pop();
+    }).
+    catchError((error) {
+      print(error);
+    });
   }
 }
