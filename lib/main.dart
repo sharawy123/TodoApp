@@ -6,6 +6,9 @@ import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/home_screen.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 
+import 'auth/login_screen.dart';
+import 'auth/register_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -22,6 +25,8 @@ class ToDoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
+        LoginScreen.routeName: (_) => LoginScreen(),
+        RegisterScreen.routeName: (_) => RegisterScreen(),
       },
       initialRoute: HomeScreen.routeName,
       theme: AppTheme.lightTheme,
