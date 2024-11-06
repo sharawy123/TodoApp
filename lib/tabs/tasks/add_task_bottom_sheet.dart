@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
+import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
 
@@ -105,6 +107,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         Duration(microseconds: 100),
         onTimeout:(){
       Navigator.of(context).pop();
+      Provider.of<TaskProvider>(context,listen: false).getTasks();
     }).
     catchError((error) {
       print(error);
