@@ -59,10 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressedButton: Login,
               ),
               SizedBox(height: 8),
-
               TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName),
+                  onPressed: () => Navigator.of(context)
+                      .pushReplacementNamed(RegisterScreen.routeName),
                   child: Text("Don't have an account?")),
             ],
           ),
