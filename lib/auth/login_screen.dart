@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/auth/register_screen.dart';
 import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/home_screen.dart';
+import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
 
 import '../app_theme.dart';
@@ -27,9 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Login',style: TextStyle(fontSize: 28,fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),

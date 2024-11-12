@@ -10,6 +10,8 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../settings/settings_provider.dart';
+
 
 class TasksTab extends StatefulWidget {
   @override
@@ -25,7 +27,7 @@ class _TasksTabState extends State<TasksTab> {
         .height;
 
     TaskProvider tasksProvider =Provider.of<TaskProvider>(context);
-
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context,listen: false);
     String userId =userProvider.currUser!.id;
     //tasksProvider .getTasks();
@@ -35,6 +37,7 @@ class _TasksTabState extends State<TasksTab> {
     }
     return Column(
       children: [
+
         Stack(
           children: [
             Container(
@@ -42,6 +45,7 @@ class _TasksTabState extends State<TasksTab> {
               color: AppTheme.primary,
               width: double.infinity,
             ),
+
             PositionedDirectional(
               start: 20,
               //  top: 45,
@@ -52,7 +56,7 @@ class _TasksTabState extends State<TasksTab> {
                       .of(context)
                       .textTheme
                       .titleMedium
-                      ?.copyWith(color: AppTheme.white, fontSize: 22),
+                      ?.copyWith(color: settingsProvider.isDark?AppTheme.black:AppTheme.white, fontSize: 22),
                 ),
               ),
             ),
@@ -74,7 +78,7 @@ class _TasksTabState extends State<TasksTab> {
                     dayStructure: DayStructure.dayNumDayStr,
                     activeDayStyle: DayStyle(
                       decoration: BoxDecoration(
-                          color: AppTheme.white,
+                          color: settingsProvider.isDark?AppTheme.DarkNavColor:AppTheme.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       dayNumStyle: TextStyle(
                           fontSize: 15,
@@ -87,33 +91,33 @@ class _TasksTabState extends State<TasksTab> {
                     ),
                     inactiveDayStyle: DayStyle(
                       decoration: BoxDecoration(
-                          color: AppTheme.white,
+                          color: settingsProvider.isDark?AppTheme.DarkNavColor:AppTheme.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
 
                       //borderRadius: BorderRadius.all(Radius.circular(5)),
                       dayNumStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.black),
+                          color: settingsProvider.isDark?AppTheme.white:AppTheme.DarkNavColor),
                       dayStrStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.black),
+                          color: settingsProvider.isDark?AppTheme.white:AppTheme.DarkNavColor),
                     ),
                   todayStyle: DayStyle(
                     decoration: BoxDecoration(
-                        color: AppTheme.white,
+                        color: settingsProvider.isDark?AppTheme.DarkNavColor:AppTheme.white,
                         borderRadius: BorderRadius.all(Radius.circular(5))),
 
                     //borderRadius: BorderRadius.all(Radius.circular(5)),
                     dayNumStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.black),
+                        color: settingsProvider.isDark?AppTheme.white:AppTheme.DarkNavColor),
                     dayStrStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.black),
+                        color: settingsProvider.isDark?AppTheme.white:AppTheme.DarkNavColor),
                   )
 
                 ),

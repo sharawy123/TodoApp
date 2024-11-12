@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
+import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 
 import '../../auth/user_provider.dart';
@@ -17,6 +18,7 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context,listen: false);
+    SettingsProvider settingsProvider =Provider.of<SettingsProvider>(context);
     String userId =userProvider.currUser!.id;
 
     ThemeData theme = Theme.of(context);
@@ -60,7 +62,7 @@ class TaskItem extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppTheme.white,
+            color: settingsProvider.isDark?AppTheme.DarkNavColor:AppTheme.white,
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Row(
@@ -115,3 +117,5 @@ class TaskItem extends StatelessWidget {
     );
   }
 }
+
+

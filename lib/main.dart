@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/home_screen.dart';
+import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'auth/login_screen.dart';
@@ -16,7 +17,8 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => TaskProvider()),
-      ChangeNotifierProvider(create: (_) => UserProvider())
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => SettingsProvider()),
 
     ],
     child: ToDoApp(),
@@ -26,6 +28,8 @@ Future<void> main() async {
 class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
@@ -36,7 +40,7 @@ class ToDoApp extends StatelessWidget {
       initialRoute: LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: settingsProvider.themeMode,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale('en'),

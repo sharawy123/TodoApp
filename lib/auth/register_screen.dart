@@ -7,6 +7,7 @@ import 'package:to_do_app/auth/login_screen.dart';
 import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/home_screen.dart';
+import 'package:to_do_app/tabs/settings/settings_provider.dart';
 
 import '../widgets/def_elevated_button.dart';
 import '../widgets/def_text_field.dart';
@@ -28,9 +29,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider =Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Register',
+            style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w400,
+                color:
+                    settingsProvider.isDark ? AppTheme.white : AppTheme.black)),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -61,6 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
               SizedBox(height: 16),
+
               DefaultTextFormField(
                 controller: passwordController,
                 hintText: "Password",
@@ -96,15 +104,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         email: emailController.text,
       ).then(
-            (user) {
-          Provider.of<UserProvider>(context,listen: false).UpdateUser(user);
+        (user) {
+          Provider.of<UserProvider>(context, listen: false).UpdateUser(user);
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         },
       ).catchError((error) {
-        String ?message;
-        if(error is FirebaseAuthException) {message=error.message;}
+        String? message;
+        if (error is FirebaseAuthException) {
+          message = error.message;
+        }
         Fluttertoast.showToast(
-          msg:  message ?? 'Something went wrong!',
+          msg: message ?? 'Something went wrong!',
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 5,
           backgroundColor: AppTheme.red,

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
+import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
@@ -26,6 +27,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider =Provider.of<SettingsProvider>(context);
     TextStyle? titleMedStyle = Theme.of(context).textTheme.titleMedium;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     String userId =Provider.of<UserProvider>(context,listen: false).currUser!.id;
@@ -33,8 +35,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       padding: EdgeInsets.only(bottom:  MediaQuery.of(context).viewInsets.bottom),
       child: Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.horizontal(left: Radius.circular(15),right: Radius.circular(15)),
-        color: AppTheme.white
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
+        color: settingsProvider.isDark? AppTheme .DarkNavColor : AppTheme.white
       ),
         height: MediaQuery.sizeOf(context).height * 0.5,
         padding: EdgeInsets.all(20),
@@ -72,7 +74,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               SizedBox(height: 16),
               Text(
                 'Select date',
-                style: titleMedStyle?.copyWith(fontWeight: FontWeight.w500),
+                style: titleMedStyle?.copyWith(fontWeight: FontWeight.w500,color:
+                settingsProvider.isDark? AppTheme.DarktaskFormField :AppTheme.black,
+                ),
               ),
               SizedBox(height: 8),
               GestureDetector(
@@ -92,6 +96,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 child: Text(
                   dateFormat.format(selectedDate),
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: settingsProvider.isDark? AppTheme.white :AppTheme.LighttaskFormField),
+
                 ),
               ),
               SizedBox(height: 32),

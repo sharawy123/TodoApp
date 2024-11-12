@@ -46,6 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,7 +58,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
   flutter_native_splash: ^2.4.2
-
+  shared_preferences: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
