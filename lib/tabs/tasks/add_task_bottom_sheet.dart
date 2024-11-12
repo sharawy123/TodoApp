@@ -9,6 +9,9 @@ import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
 
+import '../../auth/user_provider.dart';
+
+
 class AddTaskBottomSheet extends StatefulWidget {
   @override
   State<AddTaskBottomSheet> createState() => _AddTaskBottomSheetState();
@@ -24,6 +27,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     TextStyle? titleMedStyle = Theme.of(context).textTheme.titleMedium;
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    String userId =Provider.of<UserProvider>(context,listen: false).currUser!.id;
     return Padding(
       padding: EdgeInsets.only(bottom:  MediaQuery.of(context).viewInsets.bottom),
       child: Container(
@@ -106,17 +111,20 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
+    String userId =Provider.of<UserProvider>(context,listen: false).currUser!.id;
     TaskModel task = TaskModel(
       title: titleControlelr.text,
       description: descriptionControlelr.text,
       date: selectedDate,
     );
-    FireBaseFunctions.addtaskFireStore(task).
+    FireBaseFunctions.addtaskFireStore(task,userId).
     timeout(
         Duration(microseconds: 100),
         onTimeout:(){
       Navigator.of(context).pop();
-      Provider.of<TaskProvider>(context,listen: false).getTasks();
+
+
+      Provider.of<TaskProvider>(context,listen: false).getTasks(userId);
       Fluttertoast.showToast(
           msg: "Task added successfully",
           toastLength: Toast.LENGTH_LONG,

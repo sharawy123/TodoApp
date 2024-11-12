@@ -3,6 +3,7 @@ import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/tabs/settings/settings_tab.dart';
 import 'package:to_do_app/tabs/tasks/add_task_bottom_sheet.dart';
 import 'package:to_do_app/tabs/tasks/tasks_tab.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';

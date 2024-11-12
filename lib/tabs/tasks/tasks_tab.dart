@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/app_theme.dart';
+import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/tabs/tasks/task_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class TasksTab extends StatefulWidget {
   @override
@@ -22,9 +25,12 @@ class _TasksTabState extends State<TasksTab> {
         .height;
 
     TaskProvider tasksProvider =Provider.of<TaskProvider>(context);
-    tasksProvider .getTasks();
+
+    UserProvider userProvider = Provider.of<UserProvider>(context,listen: false);
+    String userId =userProvider.currUser!.id;
+    //tasksProvider .getTasks();
     if(shouldGetTask){
-      tasksProvider.getTasks();
+      tasksProvider.getTasks(userId);
       shouldGetTask=false;
     }
     return Column(
@@ -41,7 +47,7 @@ class _TasksTabState extends State<TasksTab> {
               //  top: 45,
               child: SafeArea(
                 child: Text(
-                  "To Do List",
+                  AppLocalizations.of(context)!.todoList,
                   style: Theme
                       .of(context)
                       .textTheme
@@ -58,8 +64,8 @@ class _TasksTabState extends State<TasksTab> {
                 focusDate: tasksProvider.selectedDate,
                 lastDate: DateTime.now().add(Duration(days: 365)),
                 onDateChange: (selectedDate){
-                  tasksProvider.changeSelectedDate(selectedDate);
-                  tasksProvider.getTasks();
+                  tasksProvider.changeSelectedDate(selectedDate,userId);
+                  tasksProvider.getTasks(userId);
                 },
                 //activeColor: AppTheme.white,
                 dayProps: EasyDayProps(

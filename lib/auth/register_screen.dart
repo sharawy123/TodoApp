@@ -1,5 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/auth/login_screen.dart';
+import 'package:to_do_app/auth/user_provider.dart';
+import 'package:to_do_app/firebase_functions.dart';
+import 'package:to_do_app/home_screen.dart';
 
 import '../widgets/def_elevated_button.dart';
 import '../widgets/def_text_field.dart';
@@ -83,6 +90,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void Register() {
-    if (formkey.currentState!.validate()) {}
+    if (formkey.currentState!.validate()) {
+      FireBaseFunctions.register(
+        name: nameController.text,
+        password: passwordController.text,
+        email: emailController.text,
+      ).then(
+            (user) {
+          Provider.of<UserProvider>(context,listen: false).UpdateUser(user);
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        },
+      ).catchError((error) {
+        String ?message;
+        if(error is FirebaseAuthException) {message=error.message;}
+        Fluttertoast.showToast(
+          msg:  message ?? 'Something went wrong!',
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIosWeb: 5,
+          backgroundColor: AppTheme.red,
+        );
+      });
+    }
   }
 }

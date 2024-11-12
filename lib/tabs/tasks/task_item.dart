@@ -7,6 +7,8 @@ import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 
+import '../../auth/user_provider.dart';
+
 class TaskItem extends StatelessWidget {
   TaskItem(this.Task);
 
@@ -14,6 +16,9 @@ class TaskItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context,listen: false);
+    String userId =userProvider.currUser!.id;
+
     ThemeData theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
@@ -23,12 +28,12 @@ class TaskItem extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: (_) {
-                FireBaseFunctions.deleteTaskFromFirestore(Task.id)
+                FireBaseFunctions.deleteTaskFromFirestore(Task.id,userId)
                     .timeout(
                   Duration(microseconds: 100),
                   onTimeout: () =>
                       Provider.of<TaskProvider>(context, listen: false)
-                          .getTasks(),
+                          .getTasks(userId),
                 )
                     .catchError((_) {
                   Fluttertoast.showToast(
