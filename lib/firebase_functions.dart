@@ -33,7 +33,17 @@ class FireBaseFunctions {
     QuerySnapshot<TaskModel> querySnapshot = await tasksCollection.get();
     return querySnapshot.docs.map((docSnapShot) => docSnapShot.data()).toList();
   }
+  static Future <void> editTask() async{
 
+  }
+  static Future <void> taskIsDone(String userID,String taskID,TaskModel task)async {
+  CollectionReference <TaskModel> taskCollection =getTasksCollection(userID);
+  DocumentReference<TaskModel> doc = taskCollection.doc();
+  //taskCollection.doc(taskID).update((task.isDone=true));
+  task.isDone = true;
+  taskCollection.doc(taskID).set(task);
+
+  }
   static Future<void> deleteTaskFromFirestore(String taskID,String userID) async {
     CollectionReference<TaskModel> taskCollection = getTasksCollection(userID);
     return taskCollection.doc(taskID).delete();

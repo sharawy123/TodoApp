@@ -10,16 +10,22 @@ import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 
 import '../../auth/user_provider.dart';
 
-class TaskItem extends StatelessWidget {
+class TaskItem extends StatefulWidget {
   TaskItem(this.Task);
 
   TaskModel Task;
 
   @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
+  @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context,listen: false);
-    SettingsProvider settingsProvider =Provider.of<SettingsProvider>(context);
-    String userId =userProvider.currUser!.id;
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    String userId = userProvider.currUser!.id;
 
     ThemeData theme = Theme.of(context);
     return Container(
@@ -30,7 +36,7 @@ class TaskItem extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: (_) {
-                FireBaseFunctions.deleteTaskFromFirestore(Task.id,userId)
+                FireBaseFunctions.deleteTaskFromFirestore(widget.Task.id, userId)
                     .timeout(
                   Duration(microseconds: 100),
                   onTimeout: () =>
@@ -62,7 +68,9 @@ class TaskItem extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: settingsProvider.isDark?AppTheme.DarkNavColor:AppTheme.white,
+            color: settingsProvider.isDark
+                ? AppTheme.DarkNavColor
+                : AppTheme.white,
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Row(
@@ -75,7 +83,7 @@ class TaskItem extends StatelessWidget {
                     height: 62,
                     width: 4,
                     decoration: BoxDecoration(
-                      color: theme.primaryColor,
+                      color: widget.Task.isDone?AppTheme.green:theme.primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -83,31 +91,42 @@ class TaskItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        Task.title,
+                        widget.Task.title,
                         style: theme.textTheme.titleMedium!
-                            .copyWith(color: theme.primaryColor),
+                            .copyWith(color: widget.Task.isDone? AppTheme.green: theme.primaryColor),
                       ),
                       SizedBox(height: 4),
                       Text(
-                        Task.description,
-                        style: theme.textTheme.titleSmall,
+                        widget.Task.description,
+                        style: theme.textTheme.titleSmall!.copyWith(color: widget.Task.isDone? AppTheme.green: theme.primaryColor),
                       ),
                     ],
                   ),
                 ],
               ),
               Spacer(),
-              Container(
+              widget.Task.isDone? Text('Done!',style:TextStyle(color: AppTheme.green,fontSize: 22,fontWeight: FontWeight.bold),) :Container(
                 height: 34,
                 width: 69,
                 decoration: BoxDecoration(
                   color: theme.primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: Icon(
-                  Icons.check,
-                  size: 32,
+                child: IconButton(
+                  // alignment: Alignment.center,
+                  icon: Icon(
+                    Icons.check,
+                    size: 29,
+                  ),
                   color: AppTheme.white,
+                  padding: EdgeInsets.only(bottom: 1),
+                  onPressed: () {
+                    FireBaseFunctions.taskIsDone(userId, widget.Task.id, widget.Task);
+
+                      setState(() {
+
+                      });
+                  },
                 ),
               )
             ],
@@ -117,5 +136,3 @@ class TaskItem extends StatelessWidget {
     );
   }
 }
-
-
