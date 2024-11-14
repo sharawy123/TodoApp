@@ -8,6 +8,7 @@ import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/home_screen.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../widgets/def_elevated_button.dart';
 import '../widgets/def_text_field.dart';
@@ -32,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     SettingsProvider settingsProvider =Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register',
+        title: Text(((AppLocalizations.of(context)!.register)),
             style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w400,
@@ -48,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               DefaultTextFormField(
                 controller: nameController,
-                hintText: "Name",
+                hintText: ((AppLocalizations.of(context)!.name)),
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
                     return 'Name can not be less than 2 characters';
@@ -59,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 16),
               DefaultTextFormField(
                 controller: emailController,
-                hintText: "Email",
+                hintText: ((AppLocalizations.of(context)!.email)),
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
                     return 'Email can not be less than 5 characters';
@@ -71,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               DefaultTextFormField(
                 controller: passwordController,
-                hintText: "Password",
+                hintText: (AppLocalizations.of(context)!.password),
                 isPassword: true,
                 validator: (value) {
                   if (value == null || value.trim().length < 8) {
@@ -82,14 +83,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 32),
               defElevatedButton(
-                label: 'Register',
+                label: ((AppLocalizations.of(context)!.register)),
                 onPressedButton: Register,
               ),
               SizedBox(height: 8),
               TextButton(
                   onPressed: () => Navigator.of(context)
                       .pushReplacementNamed(LoginScreen.routeName),
-                  child: Text("Already have an account?")),
+                  child: Text(AppLocalizations.of(context)!.already)),
             ],
           ),
         ),

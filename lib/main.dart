@@ -43,7 +43,7 @@ class ToDoApp extends StatelessWidget {
       themeMode: settingsProvider.themeMode,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale('en'),
+      locale: Locale(settingsProvider.LangCode),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/home_screen.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../app_theme.dart';
 import '../firebase_functions.dart';
@@ -31,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login',style: TextStyle(fontSize: 28,fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),),
+        title: Text(((AppLocalizations.of(context)!.login)),style: TextStyle(fontSize: 28,fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               DefaultTextFormField(
                 controller: emailController,
-                hintText: "Email",
+                hintText: (AppLocalizations.of(context)!.email),
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
                     return 'Email can not be less than 5 characters';
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 16),
               DefaultTextFormField(
                 controller: passwordController,
-                hintText: "Password",
+                hintText: (AppLocalizations.of(context)!.password),
                 isPassword: true,
                 validator: (value) {
                   if (value == null || value.trim().length < 8) {
@@ -64,14 +65,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 32),
               defElevatedButton(
-                label: 'Login',
+                label: (AppLocalizations.of(context)!.login),
                 onPressedButton: Login,
               ),
               SizedBox(height: 8),
               TextButton(
                   onPressed: () => Navigator.of(context)
                       .pushReplacementNamed(RegisterScreen.routeName),
-                  child: Text("Don't have an account?")),
+                  child: Text((AppLocalizations.of(context)!.donnothave))),
             ],
           ),
         ),

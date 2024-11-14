@@ -1,3 +1,22 @@
 {
-  "todoList" : "ToDo List"
+  "todoList" : "ToDo List",
+  "login" : "Login",
+  "email" : "Email",
+  "password" : "Password",
+  "donnothave" : "Don't have an account?",
+  "register" : "Register",
+  "name" : "Name",
+  "already" : "Already have an account?",
+  "settings" : "Settings",
+  "lang" : "Language",
+  "mode" : "Mode",
+  "logout" : "Logout",
+  "addnew" : " Add new task",
+  "taskname" : "Enter Task Title",
+  "taskndesc" : "Enter Task Description",
+  "selectdate" : "Select date",
+  "light" : "Light",
+  "dark" : "Dark",
+  "add" : "ADD"
+
 }

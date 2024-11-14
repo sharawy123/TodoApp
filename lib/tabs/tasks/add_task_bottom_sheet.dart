@@ -9,6 +9,7 @@ import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/widgets/def_elevated_button.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../auth/user_provider.dart';
 
@@ -47,14 +48,14 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Add new task',
+                (AppLocalizations.of(context)!.addnew),
                 style: titleMedStyle,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 16),
               DefaultTextFormField(
                 controller: titleControlelr,
-                hintText: "Enter Task Title",
+                hintText: (AppLocalizations.of(context)!.taskname),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'title cannot be empty';
@@ -64,7 +65,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               SizedBox(height: 16),
               DefaultTextFormField(
                 controller: descriptionControlelr,
-                hintText: "Enter Task Description",
+                hintText: (AppLocalizations.of(context)!.taskndesc),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'description cannot be empty';
@@ -73,7 +74,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               ),
               SizedBox(height: 16),
               Text(
-                'Select date',
+                (AppLocalizations.of(context)!.selectdate),
                 style: titleMedStyle?.copyWith(fontWeight: FontWeight.w500,color:
                 settingsProvider.isDark? AppTheme.DarktaskFormField :AppTheme.black,
                 ),
@@ -102,7 +103,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               ),
               SizedBox(height: 32),
               defElevatedButton(
-                label: "ADD",
+                label: (AppLocalizations.of(context)!.add),
                 onPressedButton: () {
                   if (formKey.currentState!.validate()) {
                     addTask();
