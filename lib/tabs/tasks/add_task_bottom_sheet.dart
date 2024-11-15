@@ -80,7 +80,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 ),
               ),
               SizedBox(height: 8),
-              GestureDetector(
+              GestureDetector (
                 onTap: () async {
                   DateTime? dateTime = await showDatePicker(
                     context: context,
@@ -118,7 +118,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
-    String userId =Provider.of<UserProvider>(context,listen: false).currUser!.id;
+    String userId =Provider.of <UserProvider> (context,listen: false).currUser!.id;
     TaskModel task = TaskModel(
       title: titleControlelr.text,
       description: descriptionControlelr.text,

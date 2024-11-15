@@ -6,6 +6,7 @@ import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/auth/user_provider.dart';
 import 'package:to_do_app/home_screen.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
+import 'package:to_do_app/tabs/tasks/edit_task.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'auth/login_screen.dart';
@@ -29,13 +30,14 @@ class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
-
+    TaskProvider taskProvider =Provider.of<TaskProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         RegisterScreen.routeName: (_) => RegisterScreen(),
+        //EditTask.routeName:(_) => EditTask(taskProvider.),
       },
       initialRoute: LoginScreen.routeName,
       theme: AppTheme.lightTheme,

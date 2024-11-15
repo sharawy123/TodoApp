@@ -6,14 +6,15 @@ import 'package:to_do_app/app_theme.dart';
 import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
+import 'package:to_do_app/tabs/tasks/edit_task.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
-
 import '../../auth/user_provider.dart';
 
 class TaskItem extends StatefulWidget {
   TaskItem(this.Task);
-
   TaskModel Task;
+
+
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -36,7 +37,22 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             SlidableAction(
               onPressed: (_) {
-                FireBaseFunctions.deleteTaskFromFirestore(widget.Task.id, userId)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditTask(widget.Task)),
+                );
+              },
+              borderRadius: BorderRadius.circular(20),
+              padding: EdgeInsets.zero,
+              backgroundColor: AppTheme.primary,
+              foregroundColor: AppTheme.white,
+              icon: Icons.delete,
+              label: 'Update',
+            ),
+            SlidableAction(
+              onPressed: (_) {
+                FireBaseFunctions.deleteTaskFromFirestore(
+                    widget.Task.id, userId)
                     .timeout(
                   Duration(microseconds: 100),
                   onTimeout: () =>
@@ -61,7 +77,7 @@ class _TaskItemState extends State<TaskItem> {
               backgroundColor: AppTheme.red,
               foregroundColor: AppTheme.white,
               icon: Icons.delete,
-              label: 'Delete',
+              label: 'delete',
             ),
           ],
         ),
@@ -83,7 +99,9 @@ class _TaskItemState extends State<TaskItem> {
                     height: 62,
                     width: 4,
                     decoration: BoxDecoration(
-                      color: widget.Task.isDone?AppTheme.green:theme.primaryColor,
+                      color: widget.Task.isDone
+                          ? AppTheme.green
+                          : theme.primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -92,43 +110,55 @@ class _TaskItemState extends State<TaskItem> {
                     children: [
                       Text(
                         widget.Task.title,
-                        style: theme.textTheme.titleMedium!
-                            .copyWith(color: widget.Task.isDone? AppTheme.green: theme.primaryColor),
+                        style: theme.textTheme.titleMedium!.copyWith(
+                            color: widget.Task.isDone
+                                ? AppTheme.green
+                                : theme.primaryColor),
                       ),
                       SizedBox(height: 4),
                       Text(
                         widget.Task.description,
-                        style: theme.textTheme.titleSmall!.copyWith(color: widget.Task.isDone? AppTheme.green: theme.primaryColor),
+                        style: theme.textTheme.titleSmall!.copyWith(
+                            color: widget.Task.isDone
+                                ? AppTheme.green
+                                : theme.primaryColor),
                       ),
                     ],
                   ),
                 ],
               ),
               Spacer(),
-              widget.Task.isDone? Text('Done!',style:TextStyle(color: AppTheme.green,fontSize: 22,fontWeight: FontWeight.bold),) :Container(
-                height: 34,
-                width: 69,
-                decoration: BoxDecoration(
-                  color: theme.primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: IconButton(
-                  // alignment: Alignment.center,
-                  icon: Icon(
-                    Icons.check,
-                    size: 29,
-                  ),
-                  color: AppTheme.white,
-                  padding: EdgeInsets.only(bottom: 1),
-                  onPressed: () {
-                    FireBaseFunctions.taskIsDone(userId, widget.Task.id, widget.Task);
+              widget.Task.isDone
+                  ? Text(
+                      'Done!',
+                      style: TextStyle(
+                          color: AppTheme.green,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                    )
+                  : Container(
+                      height: 34,
+                      width: 69,
+                      decoration: BoxDecoration(
+                        color: theme.primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: IconButton(
+                        // alignment: Alignment.center,
+                        icon: Icon(
+                          Icons.check,
+                          size: 29,
+                        ),
+                        color: AppTheme.white,
+                        padding: EdgeInsets.only(bottom: 1),
+                        onPressed: () {
+                          FireBaseFunctions.taskIsDone(
+                              userId, widget.Task.id, widget.Task);
 
-                      setState(() {
-
-                      });
-                  },
-                ),
-              )
+                          setState(() {});
+                        },
+                      ),
+                    )
             ],
           ),
         ),

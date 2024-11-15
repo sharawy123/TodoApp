@@ -32,7 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(((AppLocalizations.of(context)!.login)),style: TextStyle(fontSize: 28,fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),),
+        title: Text(
+          ((AppLocalizations.of(context)!.login)),
+          style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w400,
+              color: settingsProvider.isDark ? AppTheme.white : AppTheme.black),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -87,15 +93,16 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text,
       ).then(
         (user) {
-          Provider.of<UserProvider>(context,listen: false).UpdateUser(user);
+          Provider.of<UserProvider>(context, listen: false).UpdateUser(user);
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         },
       ).catchError((error) {
-        String ? message;
-        if(error is FirebaseAuthException) { message=error.message;}
+        String? message;
+        if (error is FirebaseAuthException) {
+          message = error.message;
+        }
         Fluttertoast.showToast(
-
-          msg: message?? 'Something went wrong!',
+          msg: message ?? 'Something went wrong!',
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 5,
           backgroundColor: AppTheme.red,

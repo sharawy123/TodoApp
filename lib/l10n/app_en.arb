@@ -17,6 +17,11 @@
   "selectdate" : "Select date",
   "light" : "Light",
   "dark" : "Dark",
-  "add" : "ADD"
+  "add" : "ADD",
+  "edit" : "Edit task",
+  "newtitle" : "New Title",
+  "newdesc" : "New Description",
+  "selectnewdate" : "Select new time",
+  "savenew" : "save changes"
 
 }
