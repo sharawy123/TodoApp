@@ -6,6 +6,7 @@ import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
+import 'package:to_do_app/tabs/tasks/tasks_tab.dart';
 import 'package:to_do_app/widgets/def_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app_theme.dart';
@@ -16,7 +17,8 @@ import '../../widgets/def_elevated_button.dart';
 class EditTask extends StatefulWidget {
   static const String routeName = '/edit';
   final TaskModel Task;
-  EditTask( this.Task);
+
+  EditTask(this.Task);
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -28,9 +30,13 @@ class _EditTaskState extends State<EditTask> {
   var formkey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    TaskProvider taskProvider = Provider.of<TaskProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Column(
@@ -68,7 +74,9 @@ class _EditTaskState extends State<EditTask> {
                 icon: Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: settingsProvider.isDark? AppTheme.DarkNavColor : AppTheme.white,
+                  color: settingsProvider.isDark
+                      ? AppTheme.DarkNavColor
+                      : AppTheme.white,
                 ),
               ))
         ]),
@@ -112,8 +120,10 @@ class _EditTaskState extends State<EditTask> {
                       hintText: (AppLocalizations.of(context)!.newtitle),
                       controller: titleController,
                       validator: (value) {
-                        if (value == null || value.trim().isEmpty)
+                        if (value == null || value.trim().length < 1) {
                           return "title can not be empty";
+                        }
+                        return null;
                       },
                     ),
                     SizedBox(height: 32),
@@ -121,8 +131,10 @@ class _EditTaskState extends State<EditTask> {
                       hintText: (AppLocalizations.of(context)!.newdesc),
                       controller: descriptionController,
                       validator: (value) {
-                        if (value == null || value.trim().isEmpty)
+                        if (value == null || value.trim().length < 1) {
                           return "description can not be empty";
+                        }
+                        return null;
                       },
                     ),
                     SizedBox(height: 32),
@@ -160,12 +172,23 @@ class _EditTaskState extends State<EditTask> {
                     ),
                     SizedBox(height: 32),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal:  39),
+                      padding: EdgeInsets.symmetric(horizontal: 39),
                       child: defElevatedButton(
                         label: (AppLocalizations.of(context)!.savenew),
                         onPressedButton: () {
-                          editTask();
-                          Navigator.of(context).pop();
+                          if (formkey.currentState!.validate()) {
+                            editTask();
+                            Navigator.of(context).pop();
+                            Fluttertoast.showToast(
+                                msg: "pull to refresh ,Task Edited successfully",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 5,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 18.0);
+
+                          }
                         },
                       ),
                     )
@@ -178,41 +201,30 @@ class _EditTaskState extends State<EditTask> {
       ],
     ));
   }
-  void editTask (){
-    String userId =Provider.of <UserProvider> (context,listen: false).currUser!.id;
-    TaskModel task = TaskModel(
-      title: titleController.text,
-      description: descriptionController.text,
-      date: selectedDate,
-    );
-    FireBaseFunctions.editTask(userId, task,).timeout(
-      Duration(microseconds: 100),
-      onTimeout: (){
-       Navigator.of(context).pop();
-       //Provider.of<TaskProvider>(context,listen: false).getTasks(userId);
-       Provider.of<TaskProvider>(context, listen: false).updateTasks(userId, widget.Task);
-       Fluttertoast.showToast(
-           msg: "Task Edited successfully",
-           toastLength: Toast.LENGTH_LONG,
-           gravity: ToastGravity.BOTTOM, //default
-           timeInSecForIosWeb: 5, //for IOS and web
-           backgroundColor: Colors.green,
-           textColor: Colors.white,
-           fontSize: 18.0
-       );
-      }).catchError((error)
-    {
-      Fluttertoast.showToast(
-          msg: "Something went wrong",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM, //default
-          timeInSecForIosWeb: 5, //for IOS and web
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 18.0
+
+  void editTask() {
+
+      String userId =
+          Provider.of<UserProvider>(context, listen: false).currUser!.id;
+      TaskModel task = TaskModel(
+        title: titleController.text,
+        description: descriptionController.text,
+        date: selectedDate,
       );
-    });
-      }
+      FireBaseFunctions.editTask(userId, task, widget.Task.id,
+              titleController.text, descriptionController.text, selectedDate)
+          .timeout(Duration(milliseconds: 100), onTimeout: () {
+        // Provider.of<TaskProvider>(context,listen: false).getTasks(userId);
+      }).catchError((error) {
+        Fluttertoast.showToast(
+            msg: "Something went wrong in editing task",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 18.0);
+      });
 
   }
-
+}

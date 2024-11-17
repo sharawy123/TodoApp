@@ -8,7 +8,6 @@ class UserProvider with ChangeNotifier{
   void UpdateUser (UserModel ? user){
     currUser =user;
     notifyListeners();
-
   }
 
 

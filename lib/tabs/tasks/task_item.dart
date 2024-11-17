@@ -13,9 +13,6 @@ import '../../auth/user_provider.dart';
 class TaskItem extends StatefulWidget {
   TaskItem(this.Task);
   TaskModel Task;
-
-
-
   @override
   State<TaskItem> createState() => _TaskItemState();
 }
@@ -23,11 +20,10 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
-    String userId = userProvider.currUser!.id;
-
+    TaskProvider taskProvider= Provider.of<TaskProvider>(context);
+    String userId = Provider.of<UserProvider>(context,listen: false).currUser!.id;
     ThemeData theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
@@ -154,7 +150,6 @@ class _TaskItemState extends State<TaskItem> {
                         onPressed: () {
                           FireBaseFunctions.taskIsDone(
                               userId, widget.Task.id, widget.Task);
-
                           setState(() {});
                         },
                       ),

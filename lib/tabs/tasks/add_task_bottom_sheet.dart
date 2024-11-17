@@ -129,8 +129,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         Duration(microseconds: 100),
         onTimeout:(){
       Navigator.of(context).pop();
-
-
       Provider.of<TaskProvider>(context,listen: false).getTasks(userId);
       Fluttertoast.showToast(
           msg: "Task added successfully",
