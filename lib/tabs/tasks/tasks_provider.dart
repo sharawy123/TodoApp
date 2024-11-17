@@ -11,15 +11,16 @@ class TaskProvider with ChangeNotifier {
    getTasks(userID);
   }
   Future <void> updateTasks (String userid, TaskModel updateTask) async{
-  await FireBaseFunctions.editTask(userid, updateTask);
-  int indx = tasks.indexWhere((tasks)=>tasks.id==updateTask.id);
-  tasks[indx] = updateTask;
-  notifyListeners();
+    int indx = tasks.indexWhere((tasks)=>tasks.id==updateTask.id);
+    tasks[indx]= updateTask;
+   notifyListeners();
+   // debugPrint("Task updated and listeners notified: ${tasks[indx].title}");
+  //await FireBaseFunctions.editTask(userid, updateTask);
+
   }
   Future<void> getTasks(String userID) async {
     tasks = await FireBaseFunctions.getAlltasksFromFireStore(userID);
-    tasks = tasks
-        .where((task) =>
+    tasks = tasks.where((task) =>
     task.date.year == selectedDate.year &&
         task.date.month == selectedDate.month &&
         task.date.day == selectedDate.day)

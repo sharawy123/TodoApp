@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/auth/login_screen.dart';
 import 'package:to_do_app/auth/user_provider.dart';
+import 'package:to_do_app/firebase_functions.dart';
 import 'package:to_do_app/tabs/settings/language.dart';
 import 'package:to_do_app/tabs/settings/mode.dart';
 import 'package:to_do_app/tabs/settings/settings_provider.dart';
@@ -190,6 +192,7 @@ class _SettingsTabState extends State<SettingsTab> {
                   ),
                   IconButton(
                     onPressed: () {
+                      FireBaseFunctions.logout();
                       Provider.of<UserProvider>(context, listen: false)
                           .UpdateUser(null);
                       Provider.of<TaskProvider>(context, listen: false)
