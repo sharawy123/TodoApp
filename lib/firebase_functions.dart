@@ -74,5 +74,5 @@ class FireBaseFunctions {
         await userCollection.doc(credential.user!.uid).get();
     return docSnapshot.data()!;
   }
-  Future<void> logout() => FirebaseAuth.instance.signOut();
+  static Future<void> logout() => FirebaseAuth.instance.signOut();
 }
